@@ -1,0 +1,87 @@
+<template>
+	<view class="content">
+		<view class="input-group">
+			<view class="input-row border">
+				<text class="title">用户：</text>
+				<m-input type="text" clearable v-model="userName" placeholder="请输入用户名"></m-input>
+			</view>
+			<view class="input-row border">
+				<text class="title">手机：</text>
+				<m-input type="text" focus clearable v-model="userTel" placeholder="请输入手机号"></m-input>
+			</view>
+			<view class="input-row border">
+				<text class="title">密码：</text>
+				<m-input type="password" displayable v-model="password" placeholder="请输入密码"></m-input>
+			</view>
+			<view class="input-row">
+				<text class="title">确认：</text>
+				<m-input type="password" displayable v-model="passwordAgain" placeholder="请确认密码"></m-input>
+			</view>
+		</view>
+		<view class="btn-row">
+			<button type="primary" class="primary" :disabled="password === ''" @tap="register">注册</button>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				userName: '',
+				userTel: '',
+				password: '',
+				passwordAgain: ''
+			}
+		},
+		methods: {
+			register() {
+				if (this.userName.length == 0) {
+					uni.showToast({
+						icon: 'none',
+						title: '用户名不能为空'
+					});
+					return;
+				}
+				if (this.userTel.length != 11) {
+					uni.showToast({
+						icon: 'none',
+						title: '无效的手机号'
+					});
+					return;
+				}
+				if (this.password.length == 0 || this.password != this.passwordAgain) {
+					uni.showToast({
+						icon: 'none',
+						title: '两次输入的密码不一致'
+					});
+					return;
+				}
+				const data = {
+					userName: this.userName,
+					userTel: this.userTel,
+					password: this.password
+				}
+				this.$store.dispatch('register', data).then(res => {
+					uni.showToast({
+						title: '注册成功',
+					});
+					setTimeout(() => {
+						uni.redirectTo({
+							url: '../login/login'
+						});
+					}, 1500)
+				}).catch(res => {
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>
