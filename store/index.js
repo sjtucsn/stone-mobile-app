@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { BASE_URL } from '../utils.js'
 
 Vue.use(Vuex)
-const BASE_URL = "http://192.168.2.170:8080"
 
 const store = new Vuex.Store({
 	state: {
@@ -11,7 +11,9 @@ const store = new Vuex.Store({
 		 */
 		forcedLogin: false,
 		hasLogin: false,
-		userInfo: {}
+		userInfo: {},
+		resourseList: [],
+		articleList: []
 	},
 	mutations: {
 		login(state, userInfo) {
@@ -19,8 +21,14 @@ const store = new Vuex.Store({
 			state.hasLogin = true;
 		},
 		logout(state) {
-			state.userName = "";
+			state.userInfo = {};
 			state.hasLogin = false;
+		},
+		setResourceList(state, resourseList) {
+			state.resourceList = [ ...resourceList ]
+		},
+		setArticleList(state, articleList) {
+			state.articleList = [ ...articleList ]
 		}
 	},
 	actions: {
@@ -31,7 +39,6 @@ const store = new Vuex.Store({
 					method: 'POST',
 					data: payload,
 					success: (res) => {
-						console.log(res)
 						if (res.data.resultCode > 0) {
 							resolve(res.data)
 						} else {
@@ -51,9 +58,8 @@ const store = new Vuex.Store({
 						'content-type': 'application/x-www-form-urlencoded'
 					},
 					success: (res) => {
-						console.log(res)
 						if (res.data.resultCode > 0) {
-							context.commit('login', res.data)
+							context.commit('login', res.data.result)
 							uni.setStorage({
 								key: 'user',
 								data: { ...payload }
@@ -65,7 +71,27 @@ const store = new Vuex.Store({
 					}
 				})
 			})
-		}
+		},
+		getArticleList(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/article/list",
+					method: 'GET',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							context.commit('setArticleList', res.data.result)
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject(res.data)
+					}
+				})
+			})
+		},
 	}
 })
 

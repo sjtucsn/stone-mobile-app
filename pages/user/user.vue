@@ -1,12 +1,26 @@
 <template>
 	<view class="content">
-		这是我的
+		<view class="btn-row">
+			<button type="primary" class="primary"  @tap="bindLogout">退出登录</button>
+		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		
+		methods: {
+			bindLogout() {
+				this.$store.commit('logout')
+				uni.removeStorage({
+					key: 'user',
+					success() {
+						uni.redirectTo({
+							url: '../login/login'
+						});
+					}
+				})
+			}
+		}
 	}
 </script>
 
