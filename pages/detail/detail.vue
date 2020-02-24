@@ -19,10 +19,12 @@
 			<view class='detail-content-text'>
 				联系方式：{{ data.tel }}
 			</view>
-			<image v-if="data.imageList.length === 1" class='detail-content-grid' :src="BASE_URL + data.imageList[0]" mode="aspectFill"></image>
-			<uni-grid v-else class='detail-content-grid' :column="column">
-				<uni-grid-item v-for="(item, index) in data.imageList" :key="index">
-					<image class='detail-content-grid-image' v-if="item !== ''" :src="BASE_URL + item" mode="aspectFill"></image>
+			<image v-if="data.imageList.length === 1" class='detail-content-grid' :src="BASE_URL + data.imageList[0]" 
+				@click="viewImage(data.imageList, 0)" mode="aspectFit"></image>
+			<uni-grid v-else class="detail-content-grid" :column="column" :showBorder="false">
+				<uni-grid-item class="detail-content-item" v-for="(item, index) in data.imageList" :key="index">
+					<image class="detail-content-item-image" v-if="item !== ''" :src="BASE_URL + item" 
+						@click="viewImage(data.imageList, index)" mode="aspectFill"></image>
 					<view v-else />
 				</uni-grid-item>
 			</uni-grid>
@@ -34,37 +36,10 @@
 	import { BASE_URL } from '../../utils.js'
 	export default {
 		data() {
-			let data
-			if (this.$route.query.type === 'article') {
-				data = this.$store.state.articleList[this.$route.query.index]
-				data = {
-					...data,
-					avatar: data.publisherAvatar,
-					name: data.publisherName,
-					tel: data.publisherTel
-				}
-			} else {
-				data = this.$store.state.resourceList[this.$route.query.index]
-				data = {
-					...data,
-					avatar: data.uploaderAvatar,
-					name: data.uploaderName,
-					tel: data.uploaderTel
-				}
-			}
-			const imageList = { ...data.imageList }
-			if (imageList.length === 5) {
-				imageList.push('')
-			} else if (imageList.length === 7) {
-				imageList.push('')
-				imageList.push('')
-			} else if (imageList.length === 8) {
-				imageList.push('')
-			}
 			return {
 				BASE_URL,
-				data,
-				imageList: data.imageList
+				type: '',
+				index: ''
 			};
 		},
 		computed: {
@@ -77,7 +52,50 @@
 				} else {
 					return 3;
 				}
+			},
+			data() {
+				let data
+				if (this.type === 'article') {
+					data = this.$store.state.articleList[this.index]
+					data = {
+						...data,
+						avatar: data.publisherAvatar,
+						name: data.publisherName,
+						tel: data.publisherTel
+					}
+				} else {
+					data = this.$store.state.resourceList[this.index]
+					data = {
+						...data,
+						avatar: data.uploaderAvatar,
+						name: data.uploaderName,
+						tel: data.uploaderTel
+					}
+				}
+				const imageList = data.imageList
+				if (imageList.length === 5) {
+					imageList.push('')
+				} else if (imageList.length === 7) {
+					imageList.push('')
+					imageList.push('')
+				} else if (imageList.length === 8) {
+					imageList.push('')
+				}
+				return data
 			}
+		},
+		methods: {
+			viewImage(imageList, index) {
+				imageList = imageList.map(url => BASE_URL + url)
+				uni.previewImage({
+					urls: imageList,
+					current: imageList[index]
+				});
+			},
+		},
+		onLoad(data) {
+			this.type = data.type;
+			this.index = data.index;
 		}
 	}
 </script>
@@ -130,6 +148,10 @@
 			
 			&-grid {
 				margin-top: 30rpx;
+			}
+			
+			&-item {
+				padding: 5rpx;
 				
 				&-image {
 					width: 100%;

@@ -14,7 +14,7 @@
 				uni.removeStorage({
 					key: 'user',
 					success() {
-						uni.redirectTo({
+						uni.reLaunch({
 							url: '../login/login'
 						});
 					}

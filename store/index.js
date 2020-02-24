@@ -12,7 +12,7 @@ const store = new Vuex.Store({
 		forcedLogin: false,
 		hasLogin: false,
 		userInfo: {},
-		resourseList: [],
+		resourceList: [],
 		articleList: []
 	},
 	mutations: {
@@ -24,8 +24,11 @@ const store = new Vuex.Store({
 			state.userInfo = {};
 			state.hasLogin = false;
 		},
-		setResourceList(state, resourseList) {
+		setResourceList(state, resourceList) {
 			state.resourceList = [ ...resourceList ]
+		},
+		addResourceList(state, resourceList) {
+			state.resourceList = [ ...state.resourceList, ...resourceList ]
 		},
 		setArticleList(state, articleList) {
 			state.articleList = [ ...articleList ]
@@ -92,6 +95,84 @@ const store = new Vuex.Store({
 				})
 			})
 		},
+		getResourceList(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/resource/list",
+					method: 'GET',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							context.commit('setResourceList', res.data.result)
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject(res.data)
+					}
+				})
+			})
+		},
+		loadMoreResource(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/resource/list",
+					method: 'GET',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							context.commit('addResourceList', res.data.result)
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject(res.data)
+					}
+				})
+			})
+		},
+		uploadResource(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/resource/upload",
+					method: 'POST',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject(res.data)
+					}
+				})
+			})
+		},
+		publishArticle(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/article/publish",
+					method: 'POST',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject(res.data)
+					}
+				})
+			})
+		}
 	}
 })
 

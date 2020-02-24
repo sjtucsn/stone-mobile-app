@@ -1,6 +1,17 @@
 <script>
 	export default {
 		onLaunch: function() {
+			uni.getStorage({
+				key: 'user',
+				success: data => {
+					this.$store.dispatch('login', data.data)
+				},
+				fail: () => {
+					uni.reLaunch({
+						url: './pages/login/login'
+					})
+				}
+			})	
 			console.log('App Launch')
 		},
 		onShow: function() {
@@ -13,6 +24,9 @@
 </script>
 
 <style>
+	@import "colorui/main.css";
+	@import "colorui/icon.css";
+	
 	/*每个页面公共css */
 	page {
 		min-height: 100%;
@@ -60,6 +74,7 @@
 	.content {
 		display: flex;
 		flex: 1;
+		width: 750rpx;
 		flex-direction: column;
 		background-color: #efeff4;
 		padding: 10px;

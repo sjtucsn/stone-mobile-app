@@ -8,9 +8,8 @@
 				:is-full="true"
 				:thumbnail="BASE_URL + item.publisherAvatar"
 			    :extra="item.createTime"
-				@click="handleShowDetail(index)"
 			>
-				<view class="item-content">
+				<view class="item-content" @click="handleShowDetail(index)">
 					<view class="item-content-image">
 						<image class="item-content-image-image" :src="BASE_URL + item.imageList[0]" mode="aspectFill"/>
 						<view class="item-content-image-title"><text class="item-content-image-title-text">{{ item.title }}</text></view>
@@ -28,7 +27,6 @@
 		data() {
 			return {
 				BASE_URL,
-				pageNo: 0,
 				pageSize: 10
 			}
 		},
@@ -44,11 +42,16 @@
 				})
 			}
 		},
+		onPullDownRefresh() {
+			this.$store.dispatch('getArticleList', { offset: 0, pageSize: this.pageSize }).then(() => {
+				uni.stopPullDownRefresh()
+			})
+		},
 		onLoad() {
 			uni.getStorage({
 				key: 'user',
 				success: () => {
-					this.$store.dispatch('getArticleList', { pageNo: this.pageNo, pageSize: this.pageSize}).catch((res) => {
+					this.$store.dispatch('getArticleList', { offset: 0, pageSize: this.pageSize}).catch((res) => {
 						uni.removeStorage({
 							key: 'user',
 							success() {
