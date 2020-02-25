@@ -24,7 +24,7 @@
 		}, {
 			"path": "pages/user/user",
 			"style": {
-				
+				"navigationBarTitleText": "我"
 			}
 		}, {
             "path" : "pages/detail/detail",
@@ -100,20 +100,10 @@
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		}, {
-			"pagePath": "pages/publish/publish",
-			"text": "发布",
-			"iconPath": "static/img/add.png",
-			"selectedIconPath": "static/img/addactive.png"
-		}, {
 			"pagePath": "pages/resource/resource",
 			"text": "资源",
 			"iconPath": "static/img/user.png",
 			"selectedIconPath": "static/img/userHL.png"
-		}, {
-			"pagePath": "pages/upload/upload",
-			"text": "上传",
-			"iconPath": "static/img/add.png",
-			"selectedIconPath": "static/img/addactive.png"
 		}, {
 			"pagePath": "pages/user/user",
 			"text": "我的",
@@ -125,5 +115,15 @@
 		"navigationBarTextStyle": "white",
 		"navigationBarBackgroundColor": "#0faeff",
 		"backgroundColor": "#fbf9fe"
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
 	}
 }

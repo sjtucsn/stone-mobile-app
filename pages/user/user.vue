@@ -20,13 +20,23 @@
 			<text>修改资料</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
-		<view class="user-block" hover-class="user-block-hover">
+		<navigator class="user-block" hover-class="user-block-hover" url="../upload/upload">
 			<text class="user-block-icon-left cuIcon-edit"></text>
-			<text>我的资源</text>
+			<text>上传资源</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
-		</view>
+		</navigator>
+		<navigator class="user-block" hover-class="user-block-hover" open-type="switchTab" url="../resource/resource">
+			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text>{{ userInfo.userType === 1 ? '资源列表' : '我的资源'}}</text>
+			<text class="user-block-icon-right cuIcon-right"></text>
+		</navigator>
+		<navigator v-if="userInfo.userType === 1" class="user-block" hover-class="user-block-hover" url="../publish/publish">
+			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text>发表文章</text>
+			<text class="user-block-icon-right cuIcon-right"></text>
+		</navigator>
 		
-		<view class="btn-row">
+		<view class="margin-top">
 			<button type="primary" class="primary" @tap="bindLogout">退出登录</button>
 		</view>
 	</view>

@@ -39,7 +39,10 @@ const store = new Vuex.Store({
 		},
 		setArticleList(state, articleList) {
 			state.articleList = [ ...articleList ]
-		}
+		},
+		addArticleList(state, articleList) {
+			state.articleList = [ ...state.articleList, ...articleList ]
+		},
 	},
 	actions: {
 		register(context, payload) {
@@ -80,7 +83,7 @@ const store = new Vuex.Store({
 						}
 					},
 					fail(res) {
-						reject(res.data)
+						reject({msg: "请求失败"})
 					}
 				})
 			})
@@ -143,7 +146,27 @@ const store = new Vuex.Store({
 						}
 					},
 					fail(res) {
-						reject(res.data)
+						reject({msg: "请求失败"})
+					}
+				})
+			})
+		},
+		loadMoreArticle(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/article/list",
+					method: 'GET',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							context.commit('addArticleList', res.data.result)
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject({msg: "请求失败"})
 					}
 				})
 			})
@@ -163,7 +186,7 @@ const store = new Vuex.Store({
 						}
 					},
 					fail(res) {
-						reject(res.data)
+						reject({msg: "请求失败"})
 					}
 				})
 			})
@@ -183,7 +206,7 @@ const store = new Vuex.Store({
 						}
 					},
 					fail(res) {
-						reject(res.data)
+						reject({msg: "请求失败"})
 					}
 				})
 			})
@@ -202,7 +225,7 @@ const store = new Vuex.Store({
 						}
 					},
 					fail(res) {
-						reject(res.data)
+						reject({msg: "请求失败"})
 					}
 				})
 			})
@@ -221,7 +244,7 @@ const store = new Vuex.Store({
 						}
 					},
 					fail(res) {
-						reject(res.data)
+						reject({msg: "请求失败"})
 					}
 				})
 			})

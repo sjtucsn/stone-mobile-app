@@ -1,5 +1,14 @@
 <template>
 	<view class="content">
+		<scroll-view scroll-x class="bg-white nav" scroll-with-animation>
+			<view class="cu-item category-height" :class="currentTagIndex === -1 ? 'text-blue cur' : ''" @tap="tabSelect(-1)">
+				全部
+			</view>
+			<view class="cu-item category-height" :class="index === currentTagIndex ? 'text-blue cur' : ''" 
+				v-for="(category, index) in categoryList" :key="index" @tap="tabSelect(index)">
+				{{category.categoryName}}
+			</view>
+		</scroll-view>
 		<view class="resource-item" v-for="(item, index) in resourceList" :key="index">
 			<uni-card
 				mode="title"
@@ -9,7 +18,7 @@
 				:thumbnail="BASE_URL + item.uploaderAvatar"
 			    :extra="item.createTime">
 				<view class="item-content" @click="handleShowDetail(index)">
-					<view class="item-content-text">
+					<view class="item-content-text no-margin-top">
 						{{ item.content }}
 					</view>
 					<view v-if="item.position" class='item-content-text'>
@@ -44,11 +53,12 @@
 			return {
 				BASE_URL,
 				pageSize: 10,
+				currentTagIndex: -1,
 				status: 'more'
 			}
 		},
 		computed: {
-			...mapState(['resourceList'])
+			...mapState(['userInfo', 'resourceList', 'categoryList'])
 		},
 		methods: {
 			handleShowDetail(index) {
@@ -58,9 +68,33 @@
 					animationDuration: 300
 				})
 			},
+			tabSelect(index) {
+				this.currentTagIndex = index
+				this.status = 'more'
+				uni.showLoading({
+					title: '正在加载'
+				})
+				const data = { offset: 0, pageSize: this.pageSize }
+				if (this.currentTagIndex !== -1) {
+					data.categoryId = this.categoryList[index].categoryId
+				}
+				if (this.userInfo.userType === 0) {
+					data.uploaderId = this.userInfo.userId
+				}
+				this.$store.dispatch('getResourceList', data).then(() => {
+					uni.hideLoading()
+				})
+			},
 			handleLoadMore() {
 				this.status = 'loading'
-				this.$store.dispatch('loadMoreResource', { offset: this.resourceList.length, pageSize: this.pageSize }).then((res) => {
+				const data = { offset: this.resourceList.length, pageSize: this.pageSize }
+				if (this.currentTagIndex !== -1) {
+					data.categoryId = this.categoryList[this.currentTagIndex].categoryId
+				}
+				if (this.userInfo.userType === 0) {
+					data.uploaderId = this.userInfo.userId
+				}
+				this.$store.dispatch('loadMoreResource', data).then((res) => {
 					if (res.result.length === 0) {
 						this.status = 'nomore'
 					} else {
@@ -77,7 +111,14 @@
 			},
 		},
 		onPullDownRefresh() {
-			this.$store.dispatch('getResourceList', { offset: 0, pageSize: this.pageSize }).then(() => {
+			const data = { offset: 0, pageSize: this.pageSize }
+			if (this.currentTagIndex !== -1) {
+				data.categoryId = this.categoryList[this.currentTagIndex].categoryId
+			}
+			if (this.userInfo.userType === 0) {
+				data.uploaderId = this.userInfo.userId
+			}
+			this.$store.dispatch('getResourceList', data).then(() => {
 				uni.stopPullDownRefresh()
 			})
 		},
@@ -88,14 +129,18 @@
 			uni.getStorage({
 				key: 'user',
 				success: () => {
-					this.$store.dispatch('getResourceList', { offset: 0, pageSize: this.pageSize }).catch((res) => {
+					const data = { offset: 0, pageSize: this.pageSize }
+					if (this.currentTagIndex !== -1) {
+						data.categoryId = this.categoryList[this.currentTagIndex].categoryId
+					}
+					if (this.userInfo.userType === 0) {
+						data.uploaderId = this.userInfo.userId
+					}
+					this.$store.dispatch('getResourceList', data).catch((res) => {
 						uni.removeStorage({
 							key: 'user',
 							success() {
-								uni.showToast({
-									icon: 'none',
-									title: res.msg
-								})
+								this.status = 'more'
 								setTimeout(() => {
 									uni.reLaunch({
 										url: '../login/login'
@@ -142,6 +187,10 @@
 					margin-top: 10rpx;
 					text-align: justify;
 					text-align-last: left;
+				}
+				
+				.no-margin-top {
+					margin-top: 0
 				}
 			}
 		}

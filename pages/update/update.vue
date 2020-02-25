@@ -29,8 +29,16 @@
 <script>
 	export default {
 		data() {
+			const userInfo = this.$store.state.userInfo
+			let userGender
+			if (userInfo.userGender !== undefined) {
+				userGender = userInfo.userGender === 1 ? '1' : '0'
+			}
 			return {
-				userInfo: { ...this.$store.state.userInfo, userGender: this.$store.state.userInfo.userGender === 1 ? '1' : '0' }
+				userInfo: { 
+					...userInfo, 
+					userGender
+				}
 			};
 		},
 		methods: {

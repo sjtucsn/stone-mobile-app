@@ -43,6 +43,7 @@
 				title: '',
 				content: '',
 				imgList: [],
+				position: '',
 				pickerIndex: -1
 			}
 		},
