@@ -71,6 +71,23 @@
 					}
 				}
 			}
+        }, {
+            "path" : "pages/avatar/avatar",
+            "style" : {
+				"navigationBarTitleText": "头像",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "使用",
+								"float": "right",
+								"fontSize": "16px",
+								"fontWeight": "bold"
+							}
+						]
+					}
+				}
+			}
         }
     ],
 	"tabBar": {

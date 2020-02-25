@@ -24,6 +24,9 @@ const store = new Vuex.Store({
 			state.userInfo = {};
 			state.hasLogin = false;
 		},
+		setUserInfo(state, userInfo) {
+			state.userInfo = { ...userInfo }
+		},
 		setResourceList(state, resourceList) {
 			state.resourceList = [ ...resourceList ]
 		},
@@ -71,8 +74,23 @@ const store = new Vuex.Store({
 						} else {
 							reject(res.data)
 						}
+					},
+					fail(res) {
+						reject(res.data)
 					}
 				})
+			})
+		},
+		getUserInfo(context, payload) {
+			uni.request({
+				url: BASE_URL + "/user/info",
+				method: 'GET',
+				data: payload,
+				success: (res) => {
+					if (res.data.resultCode > 0) {
+						context.commit('setUserInfo', res.data.result)
+					}
+				}
 			})
 		},
 		getArticleList(context, payload) {

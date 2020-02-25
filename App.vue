@@ -4,11 +4,20 @@
 			uni.getStorage({
 				key: 'user',
 				success: data => {
-					this.$store.dispatch('login', data.data)
+					this.$store.dispatch('login', data.data).catch((e) => {
+						uni.removeStorage({
+							key: 'user',
+							success() {
+								uni.reLaunch({
+									url: 'pages/login/login'
+								})
+							}
+						})
+					})
 				},
 				fail: () => {
 					uni.reLaunch({
-						url: './pages/login/login'
+						url: 'pages/login/login'
 					})
 				}
 			})	
