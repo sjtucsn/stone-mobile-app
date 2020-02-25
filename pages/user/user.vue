@@ -157,9 +157,9 @@
 		
 		&-block {
 			background-color: white;
-			height: 90rpx;
-			line-height: 90rpx;
-			font-size: 28rpx;
+			height: 100rpx;
+			line-height: 100rpx;
+			font-size: 32rpx;
 			border-bottom: solid 1px rgba($color: #000000, $alpha: 0.1);
 			
 			&-hover {

@@ -154,6 +154,6 @@
 		padding-top: 22rpx;
 	}
 	.textarea-height {
-		height: 30vh;
+		height: 30vh !important;
 	}
 </style>

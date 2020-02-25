@@ -4,7 +4,7 @@
 			<input type="text" v-model="title" placeholder="请输入标题"></textarea>
 		</view>
 		<view class="cu-form-group margin-top">
-			<textarea class="textarea-height" v-model="content" placeholder="请描述资源内容"></textarea>
+			<textarea class="textarea-height" v-model="content" :maxlength="-1" placeholder="请描述资源内容"></textarea>
 		</view>
 		<view class="cu-form-group margin-top">
 			<view class="title">资源类别</view>
@@ -159,6 +159,6 @@
 		padding-top: 22rpx;
 	}
 	.textarea-height {
-		height: 30vh;
+		height: 30vh !important;
 	}
 </style>
