@@ -27,13 +27,13 @@
 					<view class='item-content-text'>
 						联系方式：{{ item.uploaderTel }}
 					</view>
-					<view class='item-content-grid' v-if="item.imageList && item.imageList.length !== 0">
-						<image v-if="item.imageList.length === 1" :src="BASE_URL + item.imageList[0]" 
+					<view class='item-content-grid' v-if="item.thumbnailList && item.thumbnailList.length !== 0">
+						<image v-if="item.thumbnailList.length === 1" :src="BASE_URL + item.thumbnailList[0]" 
 							@click="viewImage(item.imageList, 0)" mode="aspectFit"></image>
 						<uni-grid v-else :column="3" :showBorder="false">
-							<uni-grid-item class="item-content-grid-image" v-for="(value, index) in item.imageList" :key="index">
+							<uni-grid-item class="item-content-grid-image" v-for="(value, index) in item.thumbnailList" :key="index">
 								<image class="item-content-grid-image-image" v-if="value !== ''" 
-									:src="BASE_URL + value" mode="aspectFill" @click="viewImage(item.imageList, index)"></image>
+									:src="BASE_URL + value" mode="aspectFill" @click.stop="viewImage(item.imageList, index)"></image>
 								<view v-else />
 							</uni-grid-item>
 						</uni-grid>

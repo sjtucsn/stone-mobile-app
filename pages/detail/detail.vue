@@ -23,10 +23,10 @@
 			<view class='detail-content-text'>
 				联系方式：{{ data.tel }}
 			</view>
-			<image v-if="data.imageList.length === 1" class='detail-content-grid' :src="BASE_URL + data.imageList[0]" 
+			<image v-if="data.thumbnailList.length === 1" class='detail-content-grid' :src="BASE_URL + data.thumbnailList[0]" 
 				@click="viewImage(data.imageList, 0)" mode="aspectFit"></image>
 			<uni-grid v-else class="detail-content-grid" :column="column" :showBorder="false">
-				<uni-grid-item class="detail-content-item" v-for="(item, index) in data.imageList" :key="index">
+				<uni-grid-item class="detail-content-item" v-for="(item, index) in data.thumbnailList" :key="index">
 					<image class="detail-content-item-image" v-if="item !== ''" :src="BASE_URL + item" 
 						@click="viewImage(data.imageList, index)" mode="aspectFill"></image>
 					<view v-else />
@@ -48,7 +48,7 @@
 		},
 		computed: {
 			column() {
-				const length = this.data.imageList.length
+				const length = this.data.thumbnailList.length
 				if (length <= 3) {
 					return length
 				} else if (length === 4) {
@@ -78,14 +78,14 @@
 						gender: data.uploaderGender
 					}
 				}
-				const imageList = data.imageList
-				if (imageList.length === 5) {
-					imageList.push('')
-				} else if (imageList.length === 7) {
-					imageList.push('')
-					imageList.push('')
-				} else if (imageList.length === 8) {
-					imageList.push('')
+				const thumbnailList = data.thumbnailList
+				if (thumbnailList.length === 5) {
+					thumbnailList.push('')
+				} else if (thumbnailList.length === 7) {
+					thumbnailList.push('')
+					thumbnailList.push('')
+				} else if (thumbnailList.length === 8) {
+					thumbnailList.push('')
 				}
 				return data
 			}

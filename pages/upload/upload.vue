@@ -89,14 +89,15 @@
 			uni.showLoading({
 				title: '正在上传中'
 			})
-			const promiseList = this.imgList.map(path => {
+			const promiseList = this.imgList.map((path, index) => {
 				return new Promise((resolve, reject) => {
 					uni.uploadFile({
 						url: BASE_URL + '/image/upload',
 						name: 'image',
 						filePath: path,
 						formData: {
-							userId: this.userInfo.userId
+							userId: this.userInfo.userId,
+							index
 						},
 						success(res) {
 							const data = JSON.parse(res.data)
