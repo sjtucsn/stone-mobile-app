@@ -12,6 +12,7 @@ const store = new Vuex.Store({
 		forcedLogin: false,
 		hasLogin: false,
 		userInfo: {},
+		categoryList: [],
 		resourceList: [],
 		articleList: []
 	},
@@ -26,6 +27,9 @@ const store = new Vuex.Store({
 		},
 		setUserInfo(state, userInfo) {
 			state.userInfo = { ...userInfo }
+		},
+		setCategoryList(state, categoryList) {
+			state.categoryList = [ ...categoryList ]
 		},
 		setResourceList(state, resourceList) {
 			state.resourceList = [ ...resourceList ]
@@ -111,6 +115,17 @@ const store = new Vuex.Store({
 						reject("更改用户信息失败")
 					}
 				})
+			})
+		},
+		getCategoryList(context) {
+			uni.request({
+				url: BASE_URL + "/category/list",
+				method: 'GET',
+				success: (res) => {
+					if (res.data.resultCode > 0) {
+						context.commit('setCategoryList', res.data.result)
+					}
+				}
 			})
 		},
 		getArticleList(context, payload) {

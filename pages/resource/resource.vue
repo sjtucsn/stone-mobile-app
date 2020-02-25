@@ -12,8 +12,8 @@
 					<view class="item-content-text">
 						{{ item.content }}
 					</view>
-					<view v-if="item.address" class='item-content-text'>
-						地址：{{ item.address }}
+					<view v-if="item.position" class='item-content-text'>
+						资源地址：{{ item.position }}
 					</view>
 					<view class='item-content-text'>
 						联系方式：{{ item.uploaderTel }}

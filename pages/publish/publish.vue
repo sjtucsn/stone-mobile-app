@@ -4,7 +4,19 @@
 			<input type="text" v-model="title" placeholder="请输入标题"></textarea>
 		</view>
 		<view class="cu-form-group margin-top">
-			<textarea class="textarea-height" v-model="content" placeholder="多行文本输入框"></textarea>
+			<textarea class="textarea-height" v-model="content" placeholder="请描述资源内容"></textarea>
+		</view>
+		<view class="cu-form-group margin-top">
+			<view class="title">资源类别</view>
+			<picker :value="pickerIndex" :range="categoryList" range-key="categoryName" @change="handlePickerChange">
+				<view class="picker">
+					{{ pickerIndex > -1 ? categoryList[pickerIndex].categoryName : '请选择资源类别'}}
+				</view>
+			</picker>
+		</view>
+		<view class="cu-form-group">
+			<view class="title">资源位置</view>
+			<input type="text" v-model="position" placeholder="请输入该资源的具体位置"/>
 		</view>
 		<view class="cu-form-group margin-top">
 			<view class="grid col-4 grid-square flex-sub with-padding-top">
@@ -30,7 +42,8 @@
 			return {
 				title: '',
 				content: '',
-				imgList: []
+				imgList: [],
+				pickerIndex: -1
 			}
 		},
 		methods: {
@@ -54,9 +67,12 @@
 			deleteImage(e) {
 				this.imgList.splice(e.currentTarget.dataset.index, 1)
 			},
+			handlePickerChange(e) {
+				this.pickerIndex = e.detail.value
+			}
 		},
 		computed: {
-			...mapState(['userInfo'])
+			...mapState(['userInfo', 'categoryList'])
 		},
 		onNavigationBarButtonTap() {
 			if (this.title === '' || this.content === '' || this.imgList.length === 0) {
@@ -64,6 +80,14 @@
 					icon: 'none',
 					title: '请输入文字和至少一张图片！'
 				})
+				return
+			}
+			if (this.pickerIndex === -1) {
+				uni.showToast({
+					icon: 'none',
+					title: '请选择资源类别！'
+				})
+				return
 			}
 			uni.showLoading({
 				title: '正在上传中'
@@ -93,10 +117,11 @@
 			})
 			Promise.all(promiseList).then(() => {
 				const data = {
-					categoryId: 1,
-					categoryName: '体育',
+					categoryId: this.categoryList[this.pickerIndex].categoryId,
+					categoryName: this.categoryList[this.pickerIndex].categoryName,
 					publisherId: this.userInfo.userId,
 					content: this.content,
+					position: this.position,
 					title: this.title
 				}
 				this.$store.dispatch('publishArticle', data).then(res => {

@@ -51,6 +51,7 @@
 			uni.getStorage({
 				key: 'user',
 				success: () => {
+					this.$store.dispatch('getCategoryList')
 					this.$store.dispatch('getArticleList', { offset: 0, pageSize: this.pageSize}).catch((res) => {
 						uni.removeStorage({
 							key: 'user',

@@ -17,8 +17,8 @@
 			<view class="detail-content-text">
 				{{ data.content }}
 			</view>
-			<view class='detail-content-text'>
-				地址：{{ data.address }}
+			<view v-if="data.position" class='detail-content-text'>
+				资源地址：{{ data.position }}
 			</view>
 			<view class='detail-content-text'>
 				联系方式：{{ data.tel }}
