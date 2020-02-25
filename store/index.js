@@ -93,6 +93,26 @@ const store = new Vuex.Store({
 				}
 			})
 		},
+		updateUserInfo(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/user/update",
+					method: 'POST',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							context.commit('setUserInfo', res.data.result)
+							resolve(res.data)
+						} else {
+							reject(res.data.msg)
+						}
+					},
+					fail() {
+						reject("更改用户信息失败")
+					}
+				})
+			})
+		},
 		getArticleList(context, payload) {
 			return new Promise((resolve, reject) => {
 				uni.request({

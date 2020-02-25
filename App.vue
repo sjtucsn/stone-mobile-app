@@ -126,6 +126,16 @@
 		padding: 10px;
 	}
 	
+	.gender-male {
+		margin-left: 20rpx;
+		color: #0081ff
+	}
+	
+	.gender-female {
+		margin-left: 20rpx;
+		color: #e54d42;
+	}
+	
 	button.primary {
 		background-color: #0faeff;
 	}

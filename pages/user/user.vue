@@ -15,11 +15,11 @@
 			<text>更新头像</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</view>
-		<view class="user-block" hover-class="user-block-hover">
+		<navigator class="user-block" hover-class="user-block-hover" url="../update/update">
 			<text class="user-block-icon-left cuIcon-edit"></text>
 			<text>修改资料</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
-		</view>
+		</navigator>
 		<view class="user-block" hover-class="user-block-hover">
 			<text class="user-block-icon-left cuIcon-edit"></text>
 			<text>我的资源</text>

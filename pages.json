@@ -72,14 +72,14 @@
 				}
 			}
         }, {
-            "path" : "pages/avatar/avatar",
+            "path" : "pages/update/update",
             "style" : {
-				"navigationBarTitleText": "头像",
+				"navigationBarTitleText": "更改信息",
 				"app-plus": {
 					"titleNView": {
 						"buttons": [
 							{
-								"text": "使用",
+								"text": "确认",
 								"float": "right",
 								"fontSize": "16px",
 								"fontWeight": "bold"

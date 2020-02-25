@@ -5,7 +5,11 @@
 				<image class='detail-header-avatar-image' :src="BASE_URL + data.avatar" mode="aspectFill" width="60px" height="60px"></image>
 			</view>
 			<view class="detail-header-info">
-				<view class="detail-header-info-name">{{ data.name }}</view>
+				<view class="detail-header-info-name">
+					{{ data.name }}
+					<text v-if="data.gender === 1" class="cuIcon-male gender-male"></text>
+					<text v-if="data.gender === 0" class="cuIcon-female gender-female"></text>
+				</view>
 				<view class="detail-header-info-time">{{ data.createTime }}</view>
 			</view>
 		</view>
@@ -61,7 +65,8 @@
 						...data,
 						avatar: data.publisherAvatar,
 						name: data.publisherName,
-						tel: data.publisherTel
+						tel: data.publisherTel,
+						gender: data.publisherGender
 					}
 				} else {
 					data = this.$store.state.resourceList[this.index]
@@ -69,7 +74,8 @@
 						...data,
 						avatar: data.uploaderAvatar,
 						name: data.uploaderName,
-						tel: data.uploaderTel
+						tel: data.uploaderTel,
+						gender: data.uploaderGender
 					}
 				}
 				const imageList = data.imageList
@@ -86,7 +92,7 @@
 		},
 		methods: {
 			viewImage(imageList, index) {
-				imageList = imageList.map(url => BASE_URL + url)
+				imageList = imageList.filter(url => url !== '').map(url => BASE_URL + url)
 				uni.previewImage({
 					urls: imageList,
 					current: imageList[index]
