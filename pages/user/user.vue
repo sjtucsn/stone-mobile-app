@@ -2,7 +2,7 @@
 	<view class="user">
 		<view class="user-header">
 			<view class='user-header-avatar'>
-				<image class='user-header-avatar-image' :src="BASE_URL + userInfo.userAvatar" mode="aspectFill" width="60px" height="60px"></image>
+				<image class='user-header-avatar-image' :src="BASE_URL + userInfo.userAvatar" mode="aspectFill" @click="preview"></image>
 			</view>
 			<view class="user-header-info">
 				<view class="user-header-info-name">{{ userInfo.userName }}</view>
@@ -47,14 +47,14 @@
 		</navigator>
 		
 		<view class="margin-top">
-			<button type="primary" class="primary" @tap="bindLogout">退出登录</button>
+			<button type="primary" class="user-button primary" @tap="bindLogout">退出登录</button>
 		</view>
 	</view>
 </template>
 
 <script>
 	import { mapState } from 'vuex'
-	import { BASE_URL } from '../../utils.js'
+	import { BASE_URL, compressImage } from '../../utils.js'
 	export default {
 		data() {
 			return {
@@ -66,10 +66,12 @@
 		},
 		methods: {
 			handleChangeAvatar() {
+				const device = uni.getSystemInfoSync();
 				uni.chooseImage({
 					count: 1,
-					success: (res) => {
-						this.avatar = res.tempFilePaths[0]
+					success: async (res) => {
+						const path = res.tempFilePaths[0];
+						const tempPath = await compressImage(path, device.platform);
 						uni.showModal({
 							content: '您确定要修改头像吗？',
 							success: (res) => {
@@ -77,7 +79,7 @@
 									uni.uploadFile({
 										url: BASE_URL + '/user/avatar/change',
 										name: 'avatar',
-										filePath: this.avatar,
+										filePath: tempPath,
 										formData: {
 											userId: this.userInfo.userId
 										},
@@ -107,6 +109,11 @@
 						})
 					}
 				})
+			},
+			preview() {
+				uni.previewImage({
+					urls: [(BASE_URL + this.userInfo.userAvatar).split('thumbnail.').join('')],
+				});
 			},
 			bindLogout() {
 				this.$store.commit('logout')
@@ -187,6 +194,11 @@
 				margin-right: 20rpx;
 				color: #bbb
 			}
+		}
+		
+		&-button {
+			height: 90rpx;
+			line-height: 90rpx;
 		}
 	}
 </style>

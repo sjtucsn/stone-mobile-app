@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import { BASE_URL } from '../../utils.js'
+	import { BASE_URL, compressImage } from '../../utils.js'
 	import { mapState } from 'vuex'
 	export default {
 		data() {
@@ -49,12 +49,20 @@
 		},
 		methods: {
 			chooseImage() {
+				const device = uni.getSystemInfoSync();
 				uni.chooseImage({
-					success: (res) => {
+					success: async (res) => {
+						const tempFilePaths = res.tempFilePaths;
+						let tempPathList = [];
+						for (let i = 0; i < tempFilePaths.length; i++) {
+							const path = tempFilePaths[i];
+							const tempPath = await compressImage(path, device.platform);
+							tempPathList.push(tempPath);
+						}
 						if (this.imgList.length != 0) {
-							this.imgList = this.imgList.concat(res.tempFilePaths)
+							this.imgList = this.imgList.concat(tempPathList)
 						} else {
-							this.imgList = res.tempFilePaths
+							this.imgList = tempPathList
 						}
 					}
 				});

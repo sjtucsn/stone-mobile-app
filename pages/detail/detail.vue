@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="detail-header">
 			<view class='detail-header-avatar'>
-				<image class='detail-header-avatar-image' :src="BASE_URL + data.avatar" mode="aspectFill" width="60px" height="60px"></image>
+				<image class='detail-header-avatar-image' :src="BASE_URL + data.avatar" mode="aspectFill"></image>
 			</view>
 			<view class="detail-header-info">
 				<view class="detail-header-info-name">
@@ -103,39 +103,41 @@
 			handleDelete() {
 				uni.showModal({
 					content: '您确定要删除该内容吗？',
-					success: () => {
-						if (this.type === 'article') {
-							this.$store.dispatch('deleteArticle', this.data.articleId).then(() => {
-								uni.showToast({
-									title: '删除成功！'
-								})
-								setTimeout(() => {
-									uni.reLaunch({
-										url: "../main/main"
+					success: res => {
+						if (res.confirm) {
+							if (this.type === 'article') {
+								this.$store.dispatch('deleteArticle', this.data.articleId).then(() => {
+									uni.showToast({
+										title: '删除成功！'
 									})
-								}, 500)
-							}).catch(res => {
-								uni.showToast({
-									icon: 'none',
-									title: res.msg
-								})
-							})
-						} else {
-							this.$store.dispatch('deleteResource', this.data.resourceId).then(() => {
-								uni.showToast({
-									title: '删除成功！'
-								})
-								setTimeout(() => {
-									uni.reLaunch({
-										url: "../resource/resource"
+									setTimeout(() => {
+										uni.reLaunch({
+											url: "../main/main"
+										})
+									}, 500)
+								}).catch(res => {
+									uni.showToast({
+										icon: 'none',
+										title: res.msg
 									})
-								}, 500)
-							}).catch(res => {
-								uni.showToast({
-									icon: 'none',
-									title: res.msg
 								})
-							})
+							} else {
+								this.$store.dispatch('deleteResource', this.data.resourceId).then(() => {
+									uni.showToast({
+										title: '删除成功！'
+									})
+									setTimeout(() => {
+										uni.reLaunch({
+											url: "../resource/resource"
+										})
+									}, 500)
+								}).catch(res => {
+									uni.showToast({
+										icon: 'none',
+										title: res.msg
+									})
+								})
+							}
 						}
 					}
 				})

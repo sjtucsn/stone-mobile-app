@@ -49,18 +49,20 @@
 				uni.showModal({
 					content: "您确定要删除该类别吗？",
 					success: () => {
-						this.$store.dispatch('deleteCategory', { categoryId: category.categoryId }).then(() => {
-							this.showModel = false
-							uni.showToast({
-								title: '删除成功！'
+						if (res.confirm) {
+							this.$store.dispatch('deleteCategory', { categoryId: category.categoryId }).then(() => {
+								this.showModel = false
+								uni.showToast({
+									title: '删除成功！'
+								})
+							}).catch(res => {
+								this.showModel = false
+								uni.showToast({
+									icon: 'none',
+									title: res.msg
+								})
 							})
-						}).catch(res => {
-							this.showModel = false
-							uni.showToast({
-								icon: 'none',
-								title: res.msg
-							})
-						})
+						}
 					}
 				})
 			},

@@ -171,6 +171,7 @@
 
 		.resource-item {
 			margin-top: 30rpx;
+			font-size: 28rpx;
 			
 			.item-content {
 				&-grid {

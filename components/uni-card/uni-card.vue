@@ -8,7 +8,7 @@
 		</view>
 		<view v-if="mode === 'title'" class="uni-card__title">
 			<view class="uni-card__title-header">
-				<image class="uni-card__title-header-image" :src="thumbnail" mode="scaleToFill" />
+				<image class="uni-card__title-header-image" :src="thumbnail" mode="aspectFill" />
 			</view>
 			<view class="uni-card__title-content">
 				<text class="uni-card__title-content-title">{{ title }}</text>
