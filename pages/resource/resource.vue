@@ -29,7 +29,7 @@
 					</view>
 					<view class='item-content-grid' v-if="item.thumbnailList && item.thumbnailList.length !== 0">
 						<image v-if="item.thumbnailList.length === 1" :src="BASE_URL + item.thumbnailList[0]" 
-							@click="viewImage(item.imageList, 0)" mode="aspectFit"></image>
+							@click.stop="viewImage(item.imageList, 0)" mode="aspectFit"></image>
 						<uni-grid v-else :column="3" :showBorder="false">
 							<uni-grid-item class="item-content-grid-image" v-for="(value, index) in item.thumbnailList" :key="index">
 								<image class="item-content-grid-image-image" v-if="value !== ''" 
