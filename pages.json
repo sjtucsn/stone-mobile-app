@@ -113,8 +113,8 @@
 		}, {
 			"pagePath": "pages/resource/resource",
 			"text": "资源",
-			"iconPath": "static/img/user.png",
-			"selectedIconPath": "static/img/userHL.png"
+			"iconPath": "static/img/resource.png",
+			"selectedIconPath": "static/img/resourcesHL.png"
 		}, {
 			"pagePath": "pages/user/user",
 			"text": "我的",

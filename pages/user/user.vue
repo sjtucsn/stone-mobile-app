@@ -11,7 +11,7 @@
 		</view>
 		
 		<view class="user-block margin-top" hover-class="user-block-hover" @click="handleChangeAvatar">
-			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text class="user-block-icon-left cuIcon-profile"></text>
 			<text>更新头像</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</view>
@@ -21,27 +21,27 @@
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
 		<navigator class="user-block" hover-class="user-block-hover" url="../upload/upload">
-			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text class="user-block-icon-left cuIcon-upload"></text>
 			<text>上传资源</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
 		<navigator class="user-block" hover-class="user-block-hover" open-type="switchTab" url="../resource/resource">
-			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text class="user-block-icon-left cuIcon-list"></text>
 			<text>{{ userInfo.userType === 1 ? '资源列表' : '我的资源'}}</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
 		<navigator v-if="userInfo.userType === 1" class="user-block margin-top" hover-class="user-block-hover" url="../publish/publish">
-			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text class="user-block-icon-left cuIcon-pullup"></text>
 			<text>发表文章</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
 		<navigator v-if="userInfo.userType === 1" class="user-block" hover-class="user-block-hover" url="../category/category">
-			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text class="user-block-icon-left cuIcon-cascades"></text>
 			<text>类别管理</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
 		<navigator v-if="userInfo.userType === 1" class="user-block" hover-class="user-block-hover" url="../authority/authority">
-			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text class="user-block-icon-left cuIcon-search"></text>
 			<text>用户查找</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
@@ -169,7 +169,7 @@
 			background-color: white;
 			height: 95rpx;
 			line-height: 95rpx;
-			font-size: 32rpx;
+			font-size: 30rpx;
 			border-bottom: solid 1px rgba($color: #000000, $alpha: 0.1);
 			
 			&-hover {
