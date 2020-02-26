@@ -25,6 +25,7 @@
 </template>
 
 <script>
+	import sha256 from 'js-sha256'
 	export default {
 		data() {
 			return {
@@ -43,24 +44,32 @@
 					});
 					return;
 				}
-				if (this.userTel.length != 11) {
+				if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.userTel))) {
 					uni.showToast({
 						icon: 'none',
 						title: '无效的手机号'
 					});
 					return;
 				}
-				if (this.password.length == 0 || this.password != this.passwordAgain) {
+				if (this.password.length < 6) {
+					uni.showToast({
+						icon: 'none',
+						title: '密码长度至少为6位'
+					});
+					return;
+				}
+				if (this.password != this.passwordAgain) {
 					uni.showToast({
 						icon: 'none',
 						title: '两次输入的密码不一致'
 					});
 					return;
 				}
+				const password = sha256(this.password)
 				const data = {
 					userName: this.userName,
 					userTel: this.userTel,
-					password: this.password
+					password
 				}
 				this.$store.dispatch('register', data).then(res => {
 					uni.showToast({

@@ -15,13 +15,14 @@
 		</view>
 		<view class="action-row">
 			<navigator url="../reg/reg">注册账号</navigator>
-			<text>|</text>
-			<navigator url="../pwd/pwd">忘记密码</navigator>
+			<!-- <text>|</text>
+			<navigator url="../pwd/pwd">忘记密码</navigator> -->
 		</view>
 	</view>
 </template>
 
 <script>
+	import sha256 from 'js-sha256'
 	export default {
 		data() {
 			return {
@@ -40,7 +41,7 @@
 				}
 				const data = {
 					userTel: this.userTel,
-					password: this.password
+					password: sha256(this.password)
 				};
 				this.$store.dispatch('login', data).then(res => {
 					uni.showToast({

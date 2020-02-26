@@ -163,6 +163,11 @@
 <style lang="scss">
 	.content {
 		padding: 0;
+		
+		.category-height {
+			height: 80rpx;
+			line-height: 80rpx;
+		}
 
 		.resource-item {
 			margin-top: 30rpx;

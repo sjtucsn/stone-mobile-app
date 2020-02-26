@@ -98,7 +98,9 @@
 				key: 'user',
 				success: () => {
 					this.$store.dispatch('getCategoryList')
-					this.$store.dispatch('getArticleList', { offset: 0, pageSize: this.pageSize}).catch((res) => {
+					this.$store.dispatch('getArticleList', { offset: 0, pageSize: this.pageSize}).then(() => {
+						this.status = 'more'
+					}).catch((res) => {
 						uni.removeStorage({
 							key: 'user',
 							success() {
