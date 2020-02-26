@@ -40,6 +40,11 @@
 			<text>类别管理</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
+		<navigator v-if="userInfo.userType === 1" class="user-block" hover-class="user-block-hover" url="../authority/authority">
+			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text>用户查找</text>
+			<text class="user-block-icon-right cuIcon-right"></text>
+		</navigator>
 		
 		<view class="margin-top">
 			<button type="primary" class="primary" @tap="bindLogout">退出登录</button>

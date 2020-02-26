@@ -94,6 +94,12 @@
 				"navigationBarTitleText": "类别管理"
 			}
         }
+        ,{
+            "path" : "pages/authority/authority",
+            "style" : {
+				"navigationBarTitleText": "用户查找"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",
