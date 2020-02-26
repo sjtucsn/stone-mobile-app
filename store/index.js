@@ -291,6 +291,50 @@ const store = new Vuex.Store({
 					}
 				})
 			})
+		},
+		deleteArticle(context, articleId) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/article/delete",
+					method: 'POST',
+					data: { articleId },
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject({msg: "请求失败"})
+					}
+				})
+			})
+		},
+		deleteResource(context, resourceId) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/resource/delete",
+					method: 'POST',
+					data: { resourceId },
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject({msg: "请求失败"})
+					}
+				})
+			})
 		}
 	}
 })

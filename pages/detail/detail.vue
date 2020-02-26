@@ -9,6 +9,7 @@
 					{{ data.name }}
 					<text v-if="data.gender === 1" class="cuIcon-male gender-male"></text>
 					<text v-if="data.gender === 0" class="cuIcon-female gender-female"></text>
+					<text v-if="data.tel === userTel" class="cuIcon-delete text-red detail-header-delete" @click="handleDelete"></text>
 				</view>
 				<view class="detail-header-info-time">{{ data.createTime }}</view>
 			</view>
@@ -43,7 +44,8 @@
 			return {
 				BASE_URL,
 				type: '',
-				index: ''
+				index: '',
+				userTel: this.$store.state.userInfo.userTel
 			};
 		},
 		computed: {
@@ -98,6 +100,46 @@
 					current: imageList[index]
 				});
 			},
+			handleDelete() {
+				uni.showModal({
+					content: '您确定要删除该内容吗？',
+					success: () => {
+						if (this.type === 'article') {
+							this.$store.dispatch('deleteArticle', this.data.articleId).then(() => {
+								uni.showToast({
+									title: '删除成功！'
+								})
+								setTimeout(() => {
+									uni.reLaunch({
+										url: "../main/main"
+									})
+								}, 500)
+							}).catch(res => {
+								uni.showToast({
+									icon: 'none',
+									title: res.msg
+								})
+							})
+						} else {
+							this.$store.dispatch('deleteResource', this.data.resourceId).then(() => {
+								uni.showToast({
+									title: '删除成功！'
+								})
+								setTimeout(() => {
+									uni.reLaunch({
+										url: "../resource/resource"
+									})
+								}, 500)
+							}).catch(res => {
+								uni.showToast({
+									icon: 'none',
+									title: res.msg
+								})
+							})
+						}
+					}
+				})
+			}
 		},
 		onLoad(data) {
 			this.type = data.type;
@@ -133,6 +175,7 @@
 				
 				&-name {
 					line-height: 30px;
+					display: flex;
 				}
 				
 				&-time {
@@ -140,6 +183,11 @@
 					font-size: 14px;
 					color: #999;
 				}
+			}
+			
+			&-delete {
+				flex: 1;
+				text-align: right;
 			}
 		}
 		
