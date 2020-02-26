@@ -88,6 +88,11 @@
 					}
 				}
 			}
+        }, {
+            "path" : "pages/category/category",
+            "style" : {
+				"navigationBarTitleText": "类别管理"
+			}
         }
     ],
 	"tabBar": {

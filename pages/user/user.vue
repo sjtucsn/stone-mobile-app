@@ -30,9 +30,14 @@
 			<text>{{ userInfo.userType === 1 ? '资源列表' : '我的资源'}}</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
-		<navigator v-if="userInfo.userType === 1" class="user-block" hover-class="user-block-hover" url="../publish/publish">
+		<navigator v-if="userInfo.userType === 1" class="user-block margin-top" hover-class="user-block-hover" url="../publish/publish">
 			<text class="user-block-icon-left cuIcon-edit"></text>
 			<text>发表文章</text>
+			<text class="user-block-icon-right cuIcon-right"></text>
+		</navigator>
+		<navigator v-if="userInfo.userType === 1" class="user-block" hover-class="user-block-hover" url="../category/category">
+			<text class="user-block-icon-left cuIcon-edit"></text>
+			<text>类别管理</text>
 			<text class="user-block-icon-right cuIcon-right"></text>
 		</navigator>
 		
@@ -157,8 +162,8 @@
 		
 		&-block {
 			background-color: white;
-			height: 100rpx;
-			line-height: 100rpx;
+			height: 95rpx;
+			line-height: 95rpx;
 			font-size: 32rpx;
 			border-bottom: solid 1px rgba($color: #000000, $alpha: 0.1);
 			

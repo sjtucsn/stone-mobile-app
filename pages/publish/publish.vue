@@ -127,19 +127,24 @@
 					title: this.title
 				}
 				this.$store.dispatch('publishArticle', data).then(res => {
-					if (res.resultCode > 0) {
-						uni.hideLoading()
-						uni.showToast({
-							title: '上传成功！'
+					uni.hideLoading()
+					uni.showToast({
+						title: '上传成功！'
+					})
+					setTimeout(() => {
+						uni.reLaunch({
+							url: "../main/main"
 						})
-						setTimeout(() => {
-							uni.reLaunch({
-								url: "../main/main"
-							})
-						}, 500)
-					}
+					}, 500)
+				}).catch((res) => {
+					uni.hideLoading()
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
 				})
 			}).catch(() => {
+				uni.hideLoading()
 				uni.showToast({
 					icon: 'none',
 					title: '上传失败！'

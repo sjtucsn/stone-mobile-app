@@ -131,6 +131,49 @@ const store = new Vuex.Store({
 				}
 			})
 		},
+		createCategory(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/category/create",
+					method: 'POST',
+					data: payload,
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							context.dispatch('getCategoryList')
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject({msg: "请求失败"})
+					}
+				})
+			})
+		},
+		deleteCategory(context, payload) {
+			return new Promise((resolve, reject) => {
+				uni.request({
+					url: BASE_URL + "/category/delete",
+					method: 'POST',
+					data: payload,
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: (res) => {
+						if (res.data.resultCode > 0) {
+							context.dispatch('getCategoryList')
+							resolve(res.data)
+						} else {
+							reject(res.data)
+						}
+					},
+					fail(res) {
+						reject({msg: "请求失败"})
+					}
+				})
+			})
+		},
 		getArticleList(context, payload) {
 			return new Promise((resolve, reject) => {
 				uni.request({

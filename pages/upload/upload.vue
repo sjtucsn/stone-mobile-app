@@ -122,19 +122,24 @@
 					content: this.content
 				}
 				this.$store.dispatch('uploadResource', data).then(res => {
-					if (res.resultCode > 0) {
-						uni.hideLoading()
-						uni.showToast({
-							title: '上传成功！'
+					uni.hideLoading()
+					uni.showToast({
+						title: '上传成功！'
+					})
+					setTimeout(() => {
+						uni.reLaunch({
+							url: "../resource/resource"
 						})
-						setTimeout(() => {
-							uni.reLaunch({
-								url: "../resource/resource"
-							})
-						}, 500)
-					}
+					}, 500)
+				}).catch(res => {
+					uni.hideLoading()
+					uni.showToast({
+						icon: 'none',
+						title: res.msg
+					})
 				})
 			}).catch(() => {
+				uni.hideLoading()
 				uni.showToast({
 					icon: 'none',
 					title: '上传失败！'
