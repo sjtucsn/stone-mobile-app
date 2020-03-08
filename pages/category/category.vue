@@ -48,7 +48,7 @@
 			showDeleteModel(category) {
 				uni.showModal({
 					content: "您确定要删除该类别吗？",
-					success: () => {
+					success: (res) => {
 						if (res.confirm) {
 							this.$store.dispatch('deleteCategory', { categoryId: category.categoryId }).then(() => {
 								this.showModel = false

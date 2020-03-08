@@ -193,6 +193,7 @@
 					margin-top: 10rpx;
 					text-align: justify;
 					text-align-last: left;
+					-webkit-user-select: text;
 				}
 				
 				.no-margin-top {
